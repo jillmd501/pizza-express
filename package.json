@@ -1,0 +1,30 @@
+{
+  "name": "pizza-express",
+  "version": "1.0.0",
+  "description": "A tutorial to build and test an Express application from the ground up.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jillmd501/pizza-express.git"
+  },
+  "keywords": [
+    "pizza",
+    "npm"
+  ],
+  "author": "Jill Donohue",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jillmd501/pizza-express/issues"
+  },
+  "homepage": "https://github.com/jillmd501/pizza-express#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "request": "^2.69.0"
+  }
+}
