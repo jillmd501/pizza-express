@@ -26,26 +26,61 @@ describe('Server', () => {
   });
 
   describe('GET /', () => {
-    // Our tests will go here.
 
-  it('should return a 200', (done) => {
-    this.request.get('/', (error, response) => {
-      if (error) { done(error); }
-      assert.equal(response.statusCode, 200);
-      done();
+    it('should return a 200', (done) => {
+      this.request.get('/', (error, response) => {
+        if (error) { done(error); }
+        assert.equal(response.statusCode, 200);
+        done();
+      });
     });
+
+    it('should have a body with the name of the application', (done) => {
+      var title = app.locals.title;
+
+      this.request.get('/', (error, response) => {
+        if (error) { done(error); }
+        assert(response.body.includes(title),
+               `"${response.body}" does not include "${title}".`);
+        done();
+      });
+    });
+
   });
 
-  it('should have a body with the name of the application', (done) => {
-  var title = app.locals.title;
+  describe('POST /pizzas', () => {
 
-  this.request.get('/', (error, response) => {
-    if (error) { done(error); }
-    assert(response.body.includes(title),
-           `"${response.body}" does not include "${title}".`);
-    done();
+    beforeEach(() => {
+      app.locals.pizzas = {};
     });
+
+    it('should not return 404', (done) => {
+      this.request.post('/pizzas', (error, response) => {
+        if (error) { done(error); }
+        assert.notEqual(response.statusCode, 404);
+        done();
+      });
+    });
+
+    it('should receive and store data', (done) => {
+      var validPizza = {
+        pizza: {
+          name: 'A vegan pizza',
+          toppings: [ 'mushrooms', 'onions', 'garlic', 'black olives' ]
+        }
+      };
+
+      this.request.post('/pizzas', { form: validPizza }, (error, response) => {
+        if (error) { done(error); }
+
+        var pizzaCount = Object.keys(app.locals.pizzas).length;
+
+        assert.equal(pizzaCount, 1, `Expected 1 pizzas, found ${pizzaCount}`);
+
+        done();
+      });
+    });
+
   });
-});
 
 });
